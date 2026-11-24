@@ -1,0 +1,135 @@
+import Link from "next/link";
+import { Reveal, CountUp, HeroDemo } from "@/components/Motion";
+import { BRAND } from "@/lib/brand";
+
+const REPO = process.env.NEXT_PUBLIC_REPO_URL || "https://github.com/samuel025/sats_train";
+
+const Arrow = () => <span aria-hidden>→</span>;
+
+export default function Landing() {
+  return (
+    <div className="lp">
+      {/* HERO: warm radial wash, poster headline */}
+      <section className="lp-hero">
+        <div className="lp-wrap">
+          <div className="tag rise" style={{ "--d": "0ms" } as React.CSSProperties}>Built for Africa · Paid in digital dollars · No bank account</div>
+          <h1 className="lp-h1 rise" style={{ "--d": "80ms" } as React.CSSProperties}>Teach AI your African language. Get paid in dollars.</h1>
+          <p className="lead rise" style={{ "--d": "180ms" } as React.CSSProperties}>
+            Translate, record your voice, rank AI replies, or verify other speakers in Nigerian Pidgin, Yoruba and Hausa, with more African languages coming. Approved work is paid in tUSD8, a dollar stablecoin on QDay Aevum, from a budget locked on chain before you start. No bank account needed.
+          </p>
+          <div className="lp-cta rise" style={{ "--d": "280ms" } as React.CSSProperties}>
+            <Link href="/tasks" className="btn inline">Start earning <Arrow /></Link>
+            <Link href="/post" className="btn inline secondary">Post a task</Link>
+          </div>
+          <div className="lp-trust rise" style={{ "--d": "360ms" } as React.CSSProperties}><span>Budget locked before you work</span><span>We never hold your funds</span><a href={REPO} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline" }}>Open source on GitHub ↗</a></div>
+
+          <div className="rise" style={{ "--d": "460ms" } as React.CSSProperties}><HeroDemo /></div>
+        </div>
+      </section>
+
+      {/* LANGUAGE TICKER */}
+      <div className="ticker" aria-hidden>
+        <div className="ticker-track">
+          {[0, 1].map((k) => (
+            <div key={k} className="ticker-set">
+              {["How you dey?", "Ẹ káàárọ̀", "Ina kwana", "Abeg", "Ẹ ṣé", "Na gode", "Wetin dey happen?", "Báwo ni?", "Sannu", "No wahala"].map((w) => <span key={w + k}>{w}</span>)}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* STATS */}
+      <section className="lp-band">
+        <div className="lp-wrap lp-stats">
+          <Reveal className="stat"><b><CountUp to={4} /></b><span>Languages to start: English, Pidgin, Yoruba, Hausa. More African languages are built in and switch on with one setting</span></Reveal>
+          <Reveal className="stat" delay={120}><b><CountUp to={2} suffix="×" /></b><span>Every item can be answered by independent peers</span></Reveal>
+          <Reveal className="stat" delay={240}><b><CountUp to={0} /></b><span>Bank accounts, emails or phone numbers required</span></Reveal>
+        </div>
+      </section>
+
+      {/* PROBLEM: pastel taxonomy tiles */}
+      <section className="lp-sec alt">
+        <div className="lp-wrap">
+          <Reveal><div className="tag">The problem</div>
+          <h2 className="lp-h2">Two gaps, one stable payment.</h2></Reveal>
+          <div className="lp-3">
+            <Reveal delay={0}><div className="card pink"><h3>Phones, but no bank access</h3><p className="muted">Across Africa, many young people have a smartphone and spare time but no way to receive international payments.</p></div></Reveal>
+            <Reveal delay={110}><div className="card mint"><h3>AI that struggles locally</h3><p className="muted">Mainstream AI has little data in African languages, starting with Nigerian Pidgin, Yoruba and Hausa, so it works worse for the people who speak them.</p></div></Reveal>
+            <Reveal delay={220}><div className="card yellow"><h3>No simple bridge</h3><p className="muted">Data platforms need cards and identity checks. A dollar stablecoin pays tiny amounts to anyone with a phone, keeps its value from day to day, and is shown in your local currency.</p></div></Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="lp-sec">
+        <div className="lp-wrap lp-split">
+          <div>
+            <Reveal><div className="tag">How it works</div>
+            <h2 className="lp-h2">Post. Work. Check. Pay.</h2>
+            <p className="lead">One complete loop, designed to run on a phone.</p>
+            <Link href="/tasks" className="btn inline">Browse open tasks <Arrow /></Link></Reveal>
+          </div>
+          <ol className="steps">
+            <Reveal as="li" delay={0}><span><b>A requester posts a task</b> and locks its whole budget in an escrow contract on QDay Aevum with one signature, without paying gas. The task is announced on Nostr, signed by the requester.</span></Reveal>
+            <Reveal as="li" delay={90}><span><b>A worker creates an account in one tap</b> (no email or phone number) and answers one item at a time on a simple mobile screen.</span></Reveal>
+            <Reveal as="li" delay={180}><span><b>An AI filter screens out spam</b>: blank, copied, off-language or gibberish answers. It is a filter, not a translation judge.</span></Reveal>
+            <Reveal as="li" delay={270}><span><b>Peers cross-check each other.</b> Workers rank AI replies, and qualified listeners verify recordings by typing what they hear.</span></Reveal>
+            <Reveal as="li" delay={360}><span><b>Approved answers are owed on chain</b> straight away, then paid to the worker's wallet after a short anti-abuse hold. Anyone can trigger that payment, so workers never depend on us.</span></Reveal>
+            <Reveal as="li" delay={450}><span><b>The requester exports the dataset</b> with its SHA-256 hash anchored in the task's escrow on chain, so its origin can be proven.</span></Reveal>
+          </ol>
+        </div>
+      </section>
+
+      {/* AUDIENCES */}
+      <section className="lp-sec alt">
+        <div className="lp-wrap">
+          <Reveal><div className="tag">Who it's for</div>
+          <h2 className="lp-h2">Earn from your language, or fund the data you need.</h2></Reveal>
+          <div className="lp-2">
+            <Reveal><div className="card violet">
+              <h3>For workers</h3>
+              <p className="muted">All you need is a phone. Your wallet is created on it in one tap.</p>
+              <ul className="lp-list"><li>Translate, record, rank replies, or verify clips</li><li>Pass a language test, level up, unlock better-paid work</li><li>Build a reputation that follows your Nostr key</li></ul>
+              <Link href="/tasks" className="btn inline">Find a task <Arrow /></Link>
+            </div></Reveal>
+            <Reveal delay={120}><div className="card pink">
+              <h3>For requesters</h3>
+              <p className="muted">Collect quality-checked language data without deposits or custody.</p>
+              <ul className="lp-list"><li>Lock the budget in an escrow with one signature, no gas, and take back what is not used</li><li>Choose the language or pair, the reward and peers per item</li><li>Export text as JSONL/CSV, or voice as a WAV + JSONL zip, with a provenance hash</li></ul>
+              <Link href="/post" className="btn inline secondary" style={{ background: "#fff" }}>Post a task</Link>
+            </div></Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* SECURITY: dark panel */}
+      <section className="lp-sec indigo">
+        <div className="lp-wrap">
+          <Reveal><div className="tag">Security by design</div>
+          <h2 className="lp-h2">We never hold your money.</h2></Reveal>
+          <div className="lp-3">
+            <Reveal delay={0}><div className="card dark"><h3>Limits enforced by a contract</h3><p className="muted">The escrow only pays the task's fixed rates, to workers, within the budget and a per-worker cap. Not even our server can pay itself or anyone else.</p></div></Reveal>
+            <Reveal delay={110}><div className="card dark"><h3>Anti-abuse guardrails</h3><p className="muted">Rate limits per key, a payout cooldown, rapid-submission and copy-paste detection, hidden check items and daily caps.</p></div></Reveal>
+            <Reveal delay={220}><div className="card dark"><h3>Provenance on chain</h3><p className="muted">Tasks are signed by the requester, and each export's hash is anchored on QDay Aevum and in a signed Nostr event, so data origin is verifiable.</p></div></Reveal>
+          </div>
+          <p className="muted small" style={{ marginTop: 32 }}>{BRAND} builds datasets. It does not train a model: training is the requester's next step.</p>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="lp-sec charcoal">
+        <div className="lp-wrap">
+          <Reveal><h2 className="lp-h2" style={{ margin: "0 auto 32px", maxWidth: 720 }}>Ready to teach AI your African language?</h2>
+          <div className="lp-cta">
+            <Link href="/tasks" className="btn inline lp-light">Start earning <Arrow /></Link>
+            <Link href="/post" className="btn inline lp-ghost">Post a task</Link>
+          </div></Reveal>
+        </div>
+      </section>
+
+      <footer className="lp-footer">
+        <div className="lp-wrap">{BRAND} · <a href={REPO} target="_blank" rel="noopener noreferrer" style={{ color: "#fff", textDecoration: "underline" }}>Source on GitHub</a> · Open source (MIT) · Payments on QDay Aevum testnet</div>
+      </footer>
+    </div>
+  );
+}

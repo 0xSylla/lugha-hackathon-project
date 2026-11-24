@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Lugha · project summary</title>
+<!-- Source of docs/Lugha-project-summary.pdf. Rebuild: chrome --headless --print-to-pdf=docs/Lugha-project-summary.pdf --no-pdf-header-footer docs/summary.html -->
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "DejaVu Sans", "Segoe UI", Arial, sans-serif; color: #1a1a1a; font-size: 10.4pt; line-height: 1.45; }
+  .page { width: 210mm; height: 297mm; padding: 16mm 18mm 14mm; position: relative; page-break-after: always; overflow: hidden; }
+  .page:last-child { page-break-after: auto; }
+  .bar { width: 22mm; height: 1mm; background: #e8462a; margin-bottom: 7mm; }
+  h1 { font-size: 27pt; margin: 0; letter-spacing: -0.02em; line-height: 1.1; }
+  .sub { font-size: 13pt; color: #6b6b6b; margin: 1mm 0 4mm; }
+  h2 { font-size: 13.5pt; margin: 5mm 0 1.5mm; }
+  p { margin: 0 0 2mm; }
+  ul { margin: 0 0 2mm; padding-left: 5mm; }
+  li { margin-bottom: 1.2mm; }
+  code { font-family: "DejaVu Sans Mono", Consolas, monospace; font-size: 9pt; }
+  table { width: 100%; border-collapse: collapse; margin: 1.5mm 0 2mm; font-size: 9.6pt; }
+  th { text-align: left; background: #f4f3f1; padding: 1.8mm 2.5mm; font-weight: 700; }
+  td { padding: 1.8mm 2.5mm; border-bottom: 1px solid #e6e4e0; vertical-align: top; }
+  td:first-child { white-space: nowrap; }
+  .flow { font-family: "DejaVu Sans Mono", Consolas, monospace; font-size: 8.4pt; background: #f7f6f4; border-left: 2px solid #e8462a; padding: 2.5mm 3mm; white-space: pre; margin: 1.5mm 0 2mm; line-height: 1.5; }
+  .foot { position: absolute; left: 18mm; right: 18mm; bottom: 9mm; font-size: 8pt; color: #8a8a8a; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<section class="page">
+  <div class="bar"></div>
+  <h1>Lugha</h1>
+  <div class="sub">Teach AI your African language. Get paid in digital dollars.</div>
+  <p><b>Aevum Builder Challenge #1</b> (QDay × DoraHacks) · every payment, budget and dataset proof settles on <b>QDay Aevum testnet</b> (chain 44005) in <b>tUSD8</b>. · <b>Try it:</b> <code>docker compose up --build</code>, then open localhost:3000 (payments simulated, no wallet needed).</p>
+
+  <h2>Summary</h2>
+  <p>Lugha is a mobile-first web app where people earn tUSD8, a dollar stablecoin, for small language tasks, and requesters receive a quality-checked dataset. Workers translate sentences, read them aloud, rank AI replies, or verify other people's recordings. Each task's budget is locked in an <b>escrow contract</b> with one signature and no gas, so the app never holds anyone's money, workers know the money exists before they start, and requesters only pay for accepted work. It builds datasets; it does not train a model.</p>
+
+  <h2>The problem</h2>
+  <ul>
+    <li><b>People with phones but no way to be paid.</b> Many young people across Africa have a smartphone and spare time but no bank account, card or route to receive international payments, so online work paid in dollars is out of reach.</li>
+    <li><b>AI that works poorly in local languages.</b> Published research describes Nigerian Pidgin, Yoruba and Hausa as low-resource: far less machine-readable text and speech exists than for English, and community-built datasets are the main remedy.</li>
+    <li><b>A stable dollar on a cheap chain closes both gaps.</b> Paying 20 cents costs a fraction of a cent on Aevum, the amount keeps its value from one day to the next, and receiving needs nothing but a phone.</li>
+  </ul>
+
+  <h2>How it works</h2>
+  <table>
+    <tr><th>Step</th><th>What happens</th></tr>
+    <tr><td>1. Fund</td><td>A requester posts a task and signs <b>one EIP-3009 message</b> in their wallet. The app relays it to the <code>TaskEscrow</code> contract, which locks the whole budget. The requester pays no gas.</td></tr>
+    <tr><td>2. Work</td><td>A worker creates an account in one tap (a key kept on their device; no email or phone number), passes a short language test if the task needs one, and answers one item at a time.</td></tr>
+    <tr><td>3. Check</td><td>Answers are screened for spam, then cross-checked by other people and hidden check items (see Quality).</td></tr>
+    <tr><td>4. Pay</td><td>Each accepted answer is recorded on chain at once and held for a short anti-abuse window. A worker caught by a check meanwhile is not paid, and the money returns to the budget. Then the tUSD8 lands in the worker's wallet, which can be created on their phone in one tap and needs no gas.</td></tr>
+    <tr><td>5. Export</td><td>The requester downloads the dataset (JSONL, CSV, or a ZIP with audio) with agreement labels. Its SHA-256 is stored in the task's escrow on chain.</td></tr>
+    <tr><td>6. Close</td><td>The requester closes the task from their wallet at any time and gets back every cent nobody earned.</td></tr>
+  </table>
+
+  <div class="foot"><span>Lugha · Aevum Builder Challenge #1 · QDay Aevum testnet · MIT licence</span><span>Page 1</span></div>
+</section>
+
+<section class="page">
+  <div class="bar"></div>
+  <h2 style="margin-top:0">Task types</h2>
+  <table>
+    <tr><th>Type</th><th>What the worker does</th><th>How quality is checked</th></tr>
+    <tr><td>Translation / labelling</td><td>Types an answer</td><td>Spam filter, hidden check items, agreement between workers</td></tr>
+    <tr><td>Voice recording</td><td>Reads a sentence aloud (16 kHz WAV)</td><td>Audio filter, plus a second qualified listener who types what they hear</td></tr>
+    <tr><td>Preference ranking</td><td>Picks the better of two AI replies</td><td>Hidden gold items and vote agreement</td></tr>
+  </table>
+
+  <h2>Quality: people decide, the model only filters</h2>
+  <ul>
+    <li>The LLM (Google Gemini) is a <b>spam, gibberish and coherence filter</b>, not a translation authority. It is told not to fail spelling variants, missing tone marks, dialect or code-switching.</li>
+    <li>Correctness comes from people: several workers per item, listeners who verify recordings, and hidden check items. Workers level up (New, Regular, Trusted) to unlock better-paid work. <b>Fail closed:</b> if no grader responds, the answer is not paid.</li>
+  </ul>
+  <h2>The escrow: what each party can and cannot do</h2>
+  <div class="flow">Requester wallet ──signs EIP-3009 (no gas)──► app relays ──► createTaskWithAuthorization   budget locked
+Answer accepted ──► accrue(task, answers) ──► owed to the worker, held N seconds
+Hidden check failed during the hold ──► withhold ──► back to the budget
+Hold over ──► release(claims), callable by anyone ──► tUSD8 in the worker's wallet
+Export ──► anchorDataset(task, sha256)          Requester ──► close(task) ──► unearned budget refunded</div>
+  <table>
+    <tr><th>Who</th><th>Can</th><th>Cannot</th></tr>
+    <tr><td>Requester</td><td>fund without gas, top up, pause, withhold during a hold, close and get a refund</td><td>take back money already owed to a worker</td></tr>
+    <tr><td>Operator (our server)</td><td>record accepted answers, withhold during a hold, anchor a dataset hash</td><td>pay any amount but the task's two fixed rates, pay itself or the requester, exceed the budget or the per-worker cap</td></tr>
+    <tr><td>Anyone</td><td>release a payment once its hold is over</td><td>release early, or to anyone but the worker in the claim</td></tr>
+  </table>
+  <p>The requester's signature commits to every term of the task (escrow, operator, rates, cap, hold): a relayer that changes one gets a different nonce, and the token refuses the transfer. A claim id is the hash of (task, item, worker), so one answer can never be paid twice. The contract has no admin key and no upgrade path.</p>
+
+  <div class="foot"><span>Lugha · Aevum Builder Challenge #1 · QDay Aevum testnet · MIT licence</span><span>Page 2</span></div>
+</section>
+
+<section class="page">
+  <div class="bar"></div>
+  <h2 style="margin-top:0">Built for any African language</h2>
+  <ul>
+    <li><b>Launch set:</b> English, Nigerian Pidgin, Yoruba and Hausa. <b>Language-agnostic by design:</b> a registry of 40+ African languages (with native names) switches on with one setting; tests and demo tasks for Igbo, Swahili, Zulu and Amharic are already written.</li>
+    <li>Right-to-left scripts display correctly. Answer comparison ignores tone marks, special letters (such as ɛ, ɔ, ɓ, ɗ, ƙ, ŋ) and spelling variants. Amounts are shown in the worker's own currency (14 supported, including NGN, KES, GHS, ZAR and XOF).</li>
+  </ul>
+
+  <h2>Security and tests</h2>
+  <p>A written threat model (THREAT_MODEL.md) lists the attacks considered and the known gaps. Controls include: no custody of funds; limits enforced by the contract rather than the server; signed funding that cannot be altered; on-chain holds and withholds; signed, replay-limited API requests; parameterised SQL; validated, bounded inputs; security headers and a CSP; fail-closed grading.</p>
+  <table>
+    <tr><th>Suite</th><th>What it proves</th></tr>
+    <tr><td>Contract (Foundry)</td><td>18 tests: the full flow, gasless funding, every attack (altered terms, operator paying itself, double pay, overspend, worker cap, strangers acting), and a fuzz test that the escrow always holds exactly what it owes</td></tr>
+    <tr><td>On-chain end to end</td><td>24 checks against a local fork of Aevum with the real tUSD8, driving the app like a requester and a worker and verifying every result on chain</td></tr>
+    <tr><td>App</td><td>73 unit checks, and the full end-to-end suite (auth, anti-abuse, grading, voice, qualification, exports)</td></tr>
+  </table>
+
+  <h2>Technology</h2>
+  <p>Solidity 0.8.24 (Shanghai EVM) with Foundry and OpenZeppelin; QDay Aevum testnet and tUSD8 (EIP-3009, EIP-712); viem; Next.js, React and TypeScript; Postgres; Nostr (nostr-tools) for sign-in without email, signed requests and provenance; Google Gemini for the text and audio filter, with an offline fallback; in-browser audio as 16 kHz WAV; Docker for one-command setup. Built on the QDay Aevum Starter Kit (MIT).</p>
+
+  <h2>Honest limitations</h2>
+  <ul>
+    <li><b>Testnet only.</b> tUSD8 has no cash value yet, and the contract is not audited. Real earnings wait for QDay's mainnet stablecoin.</li>
+    <li><b>Not yet validated with real users.</b> The worker persona and the requester segment are hypotheses.</li>
+    <li><b>Cashing out</b> to naira or mobile money depends on off-ramps that are not built here. A worker who clears their browser without backing up the on-device wallet loses what it holds.</li>
+    <li><b>Datasets, not models.</b> Training a model on the exported data is the requester's next step.</li>
+  </ul>
+
+  <h2>What's next</h2>
+  <ul>
+    <li>A campus pilot measuring completion, acceptance and payout success; native-speaker review of the tests; more languages and a translated interface.</li>
+    <li>Mainnet with QDay's stablecoin, a contract audit, and local cash-out partners.</li>
+  </ul>
+  <div class="foot"><span>Lugha · Aevum Builder Challenge #1 · QDay Aevum testnet · MIT licence</span><span>Page 3</span></div>
+</section>
+
+</body>
+</html>

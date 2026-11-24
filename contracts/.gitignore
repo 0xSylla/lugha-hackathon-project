@@ -1,0 +1,4 @@
+out/
+cache/
+# Deployment records: keep only real Aevum testnet runs (local and fork runs are misleading)
+broadcast/*/31337/
