@@ -16,13 +16,13 @@ const rpc = () => process.env.AEVUM_RPC || aevum.rpcUrls.default.http[0];
 export const publicClient = createPublicClient({ chain: aevum, transport: http(rpc(), { timeout: 20_000 }) });
 
 export function escrowAddress(): Address {
-  const a = process.env.ESCROW_ADDRESS || process.env.NEXT_PUBLIC_ESCROW_ADDRESS || "";
+  const a = (process.env.ESCROW_ADDRESS || process.env.NEXT_PUBLIC_ESCROW_ADDRESS || "").trim();
   if (!isAddress(a)) throw new Error("ESCROW_ADDRESS is not set to the deployed TaskEscrow address");
   return a;
 }
 
 function operatorAccount() {
-  const k = process.env.OPERATOR_PRIVATE_KEY || "";
+  const k = (process.env.OPERATOR_PRIVATE_KEY || "").trim();
   if (!/^0x[0-9a-fA-F]{64}$/.test(k)) throw new Error("OPERATOR_PRIVATE_KEY is missing or malformed");
   return privateKeyToAccount(k as Hex);
 }
