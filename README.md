@@ -9,6 +9,16 @@ Built for the **Aevum Builder Challenge #1** (QDay × DoraHacks). Every payment,
 - How it can be attacked and what it does about it: [THREAT_MODEL.md](THREAT_MODEL.md)
 - Who it helps: [docs/IMPACT.md](docs/IMPACT.md)
 
+## Deployments
+
+| What | Where |
+|---|---|
+| Network | QDay Aevum testnet, chain id 44005, RPC `https://rpc-test.qday.info` |
+| `TaskEscrow` | [`0x326ee3c2aB3ed4c52708aA5Ac786f5966adbAC9E`](https://explorer-test.qday.info/address/0x326ee3c2aB3ed4c52708aA5Ac786f5966adbAC9E), source verified on the explorer, deployed in [0x51b2aa8c…](https://explorer-test.qday.info/tx/0x51b2aa8c6504915f89ea8085dd5242bd4b9a5519ae8d6d8c1827fdacd1ce8be6) |
+| Token | tUSD8 [`0x456569838f1d43009A91ebA4263147Afd7233483`](https://explorer-test.qday.info/address/0x456569838f1d43009A91ebA4263147Afd7233483) (6 decimals, EIP-3009) |
+| Operator | [`0xF51B293Fc3Aa73780f2DC614D79DA73B90730FC8`](https://explorer-test.qday.info/address/0xF51B293Fc3Aa73780f2DC614D79DA73B90730FC8), the app's server key: it relays funding, records accepted answers and pays the gas |
+| App | https://lugha-eosin.vercel.app on Vercel, with Postgres on Neon. Every push to `main` redeploys it. |
+
 ## Live on Aevum testnet
 
 The full money path has run on the live testnet, driven through the app's API by `scripts/chain-e2e.mjs` (24 checks, all passing, rewards of $0.02):
@@ -21,7 +31,9 @@ The full money path has run on the live testnet, driven through the app's API by
 | `anchorDataset` | the export's SHA-256 is stored in the escrow | [0x69d8a546…](https://explorer-test.qday.info/tx/0x69d8a546a89fc75e9dc5b620670009022399f77826c686f54cab478b64c8ebed) |
 | `close` | the requester closes the task and gets the unused budget back | [0xb3a55ced…](https://explorer-test.qday.info/tx/0xb3a55ced6d447dba105657f48bf579c8aafe23566c3a5413b757c3154aa59148) |
 
-After the run the escrow held exactly zero: every cent was either paid to the worker or refunded.
+After that run the escrow held exactly zero: every cent was either paid to the worker or refunded.
+
+The same cycle was then run again through the live website, in a browser, for the demo video (a $0.16 task, 4 answers paid at $0.02, $0.08 refunded on close): `createTaskWithAuthorization` [0x760b0aae…](https://explorer-test.qday.info/tx/0x760b0aaeea508e515aa1e22a12f942b347670af5c4cee86baf5703a10695dc98), `accrue` [0x55b42838…](https://explorer-test.qday.info/tx/0x55b428381857293ab2d0d4190c2c6806b7516a35e924d5dba952f03af61ad147), `release` [0xa154cc3f…](https://explorer-test.qday.info/tx/0xa154cc3fbff881011099d789ccf680adbf3bb26eca3324285f797b3dda108338), `anchorDataset` [0x5cf9e42f…](https://explorer-test.qday.info/tx/0x5cf9e42f70a6c248a253310c385bb01a62f3c009c931fe392017b4d1f7640316), `close` [0x813c068d…](https://explorer-test.qday.info/tx/0x813c068d087c480fd890de1422102286fe2ae414a2e2ee49777ab2132abc9e34).
 
 ## The problem
 
