@@ -9,3 +9,5 @@ audio_data
 .next-*
 
 __pycache__/
+.vercel
+.env*
