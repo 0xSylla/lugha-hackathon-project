@@ -5,7 +5,7 @@
 Built for the **Aevum Builder Challenge #1** (QDay × DoraHacks). Every payment, budget and dataset proof settles on **QDay Aevum testnet** (chain 44005).
 
 - Contract: `TaskEscrow` at [`0x326ee3c2aB3ed4c52708aA5Ac786f5966adbAC9E`](https://explorer-test.qday.info/address/0x326ee3c2aB3ed4c52708aA5Ac786f5966adbAC9E) on QDay Aevum testnet, source verified
-- Live app: `<URL after deployment>`
+- Live app: **https://lugha-eosin.vercel.app** (real tUSD8 payments on Aevum testnet)
 - How it can be attacked and what it does about it: [THREAT_MODEL.md](THREAT_MODEL.md)
 - Who it helps: [docs/IMPACT.md](docs/IMPACT.md)
 
