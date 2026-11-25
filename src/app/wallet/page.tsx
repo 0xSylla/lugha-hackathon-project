@@ -140,7 +140,8 @@ export default function Wallet() {
                 {f.simulated ? <div className="muted small">Simulated payments: nothing to fund.</div> : <>
                   <div className="fund-row"><span>Escrow on Aevum</span><b>{fmtUsd(f.escrow.available + f.escrow.held)}</b></div>
                   <div className="muted small" style={{ margin: "-2px 0 6px" }}>{fmtUsd(f.escrow.available)} unearned budget + {fmtUsd(f.escrow.held)} locked for workers</div>
-                  {f.funded ? <span className="pill paid">✓ Funded for the whole task</span>
+                  {t.status === "closed" ? <span className="pill">Closed: the unused budget went back to your wallet</span>
+                    : f.funded ? <span className="pill paid">✓ Funded for the whole task</span>
                     : <div className="warn" style={{ margin: "8px 0 0" }}><b>Short by about {fmtUsd(f.short)}.</b> The task pauses when the escrow cannot pay the next answer.</div>}
                 </>}
               </div>); })())}
