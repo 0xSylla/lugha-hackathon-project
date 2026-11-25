@@ -1,4 +1,5 @@
-// End-to-end test of the money path on a LOCAL FORK of QDay Aevum testnet (real tUSD8, nothing leaves the machine).
+// End-to-end test of the money path against QDay Aevum: a LOCAL FORK by default (nothing leaves the machine),
+// or the live testnet with AEVUM_RPC=https://rpc-test.qday.info and a small REWARD (e.g. 20000 = $0.02).
 // It drives the app through its API like a requester and a worker would, then checks every result on chain.
 //
 //   anvil --fork-url https://rpc-test.qday.info --hardfork shanghai --chain-id 44005 --port 8545
@@ -54,7 +55,7 @@ ok("the app runs real payments on Aevum", cfg.mock === false && !!cfg.escrow && 
 // ---- 1. requester funds a task with one signature, no gas
 console.log("\nFunding");
 const id = randomUUID();
-const REWARD = 200_000; // $0.20
+const REWARD = Number(process.env.REWARD || 200_000); // micro tUSD8, default $0.20
 const items = [{ prompt: "How are you today?" }, { prompt: "Where is the market?" }];
 const checks = [{ prompt: "Good morning", answer: "Good morning" }];
 const itemCount = items.length + checks.length, slots = itemCount * 1, budget = slots * REWARD;
@@ -111,7 +112,7 @@ ok("payments are locked in the escrow during the hold", sawOnchain);
 ok("every payment ends up paid", w.payouts.length === itemCount && w.payouts.every((p) => p.status === "paid"), JSON.stringify(w.payouts.map((p) => [p.status, p.error])));
 ok("each paid row links a real transaction", w.payouts.length > 0 && w.payouts.every((p) => /^0x[0-9a-f]{64}$/i.test(p.tx || "")));
 const got = await bal(workerAddr);
-ok(`the worker's wallet received ${itemCount} × $0.20 in tUSD8`, got === itemCount * REWARD, String(got));
+ok(`the worker's wallet received ${itemCount} × $${(REWARD / 1e6).toFixed(2)} in tUSD8`, got === itemCount * REWARD, String(got));
 const live = await call(W, "/api/wallet/live");
 ok("the wallet page reads the same balance from chain", live.balance === got, JSON.stringify(live));
 

@@ -4,10 +4,24 @@
 
 Built for the **Aevum Builder Challenge #1** (QDay × DoraHacks). Every payment, budget and dataset proof settles on **QDay Aevum testnet** (chain 44005).
 
-- Contract: `TaskEscrow` at `<address after deployment>` ([explorer](https://explorer-test.qday.info))
+- Contract: `TaskEscrow` at [`0x326ee3c2aB3ed4c52708aA5Ac786f5966adbAC9E`](https://explorer-test.qday.info/address/0x326ee3c2aB3ed4c52708aA5Ac786f5966adbAC9E) on QDay Aevum testnet, source verified
 - Live app: `<URL after deployment>`
 - How it can be attacked and what it does about it: [THREAT_MODEL.md](THREAT_MODEL.md)
 - Who it helps: [docs/IMPACT.md](docs/IMPACT.md)
+
+## Live on Aevum testnet
+
+The full money path has run on the live testnet, driven through the app's API by `scripts/chain-e2e.mjs` (24 checks, all passing, rewards of $0.02):
+
+| Call | What happened | Transaction |
+|---|---|---|
+| `createTaskWithAuthorization` | a requester funds a task with one signature; the app relays it and pays the gas | [0x87f067f6…](https://explorer-test.qday.info/tx/0x87f067f68a2eeb3b5a02be6f7a4d3f7df4428e85b3c1184ec33b4ea6478c549c) |
+| `accrue` | three accepted answers are recorded and locked for the hold | [0xcac153a9…](https://explorer-test.qday.info/tx/0xcac153a98428683d8b9f10bf6ceeec2926f9b6d6b7c388ca719f17cdebbaa4ab) |
+| `release` | after the hold, the tUSD8 goes to the worker's wallet | [0x1373c46e…](https://explorer-test.qday.info/tx/0x1373c46e604b591fb6dad66a78d5a49fa16ef885c21b4e4d1bf3556339d4cf13) |
+| `anchorDataset` | the export's SHA-256 is stored in the escrow | [0x69d8a546…](https://explorer-test.qday.info/tx/0x69d8a546a89fc75e9dc5b620670009022399f77826c686f54cab478b64c8ebed) |
+| `close` | the requester closes the task and gets the unused budget back | [0xb3a55ced…](https://explorer-test.qday.info/tx/0xb3a55ced6d447dba105657f48bf579c8aafe23566c3a5413b757c3154aa59148) |
+
+After the run the escrow held exactly zero: every cent was either paid to the worker or refunded.
 
 ## The problem
 
@@ -93,7 +107,7 @@ npm test                         # unit tests, then the end-to-end suite against
 ```
 
 ### Real payments on Aevum testnet
-1. Deploy the contract with a test wallet kept in Foundry's encrypted keystore:
+1. Use the deployed escrow above (`ESCROW_ADDRESS=0x326ee3c2aB3ed4c52708aA5Ac786f5966adbAC9E`), or deploy your own with a test wallet kept in Foundry's encrypted keystore:
    ```bash
    cd contracts && forge install            # or: git submodule update --init --recursive
    cast wallet import aevum-deployer --interactive
@@ -109,7 +123,7 @@ npm test                         # unit tests, then the end-to-end suite against
 | `npm run test:contracts` | 18 Foundry tests: the full flow, gasless funding, and every attack (relayer changing the signed terms, operator paying itself, double pay, overspend, worker cap, strangers withholding or closing), plus a fuzz test that the escrow always holds exactly what it owes |
 | `npm run test:unit` | 73 checks: the funding nonce covers every term, the EIP-712 domain, dollar formatting, the SSRF guard, encryption, text matching, languages |
 | `npm run test:e2e` | the whole app with simulated payments: auth, anti-abuse, grading, ranking, voice, qualification, payouts, exports, provenance |
-| `scripts/chain-e2e.mjs` | the money path against a **local fork of Aevum testnet with the real tUSD8**. It drives the app's API like a requester and a worker, then checks every result on chain: funding without gas, payments locked then released into the worker's wallet, the dataset hash stored in the contract, refunds on close. 24 checks |
+| `scripts/chain-e2e.mjs` | the money path against a **local fork of Aevum testnet with the real tUSD8**, or the live testnet (`AEVUM_RPC=https://rpc-test.qday.info REWARD=20000`). It drives the app's API like a requester and a worker, then checks every result on chain: funding without gas, payments locked then released into the worker's wallet, the dataset hash stored in the contract, refunds on close. 24 checks |
 
 ## How this project started
 
