@@ -1,0 +1,199 @@
+1
+00:00:00,448 --> 00:00:01,331
+This is Lugha.
+
+2
+00:00:02,081 --> 00:00:04,911
+People in Nigeria earn dollars for small language tasks,
+
+3
+00:00:05,194 --> 00:00:07,822
+and the money moves through an escrow contract on QDay
+
+4
+00:00:07,862 --> 00:00:08,388
+Aevum.
+
+5
+00:00:10,048 --> 00:00:12,938
+Lots of young Nigerians have a smartphone and free time,
+
+6
+00:00:13,137 --> 00:00:15,943
+but no bank account that can receive a payment from abroad.
+
+7
+00:00:16,717 --> 00:00:20,112
+AI also handles Pidgin, Yoruba and Hausa badly,
+
+8
+00:00:20,395 --> 00:00:23,021
+because there is so little data in those languages.
+
+9
+00:00:23,760 --> 00:00:25,725
+Lugha pays people to make that data,
+
+10
+00:00:25,912 --> 00:00:27,315
+in tUSD8.
+
+11
+00:00:29,020 --> 00:00:31,033
+Say I need Pidgin translations.
+
+12
+00:00:31,771 --> 00:00:34,844
+I write three sentences, add one hidden check where I
+
+13
+00:00:34,884 --> 00:00:38,006
+already know the answer, and pay two cents per answer.
+
+14
+00:00:39,664 --> 00:00:42,651
+When I publish, my wallet asks for one signature.
+
+15
+00:00:43,388 --> 00:00:45,930
+I don't send a transaction and I pay no gas.
+
+16
+00:00:46,681 --> 00:00:49,454
+The app relays the signature, and the contract pulls
+
+17
+00:00:49,494 --> 00:00:51,162
+the whole budget into escrow.
+
+18
+00:00:52,804 --> 00:00:54,649
+Here it is on the Aevum explorer.
+
+19
+00:00:55,386 --> 00:00:56,991
+Our operator paid the gas.
+
+20
+00:00:57,718 --> 00:00:59,935
+From now on the money sits in the contract,
+
+21
+00:01:00,266 --> 00:01:02,776
+and nobody can take back what a worker has earned.
+
+22
+00:01:04,471 --> 00:01:06,267
+Now the worker, on a phone.
+
+23
+00:01:07,065 --> 00:01:08,645
+One tap makes an account:
+
+24
+00:01:08,820 --> 00:01:11,785
+a key that stays on the device, with no email and no
+
+25
+00:01:11,825 --> 00:01:15,294
+phone number. The worker reads each sentence and types
+
+26
+00:01:15,334 --> 00:01:16,197
+it in Pidgin.
+
+27
+00:01:17,875 --> 00:01:20,933
+To get paid, the worker creates a wallet on the phone,
+
+28
+00:01:21,072 --> 00:01:22,195
+also in one tap.
+
+29
+00:01:22,969 --> 00:01:25,787
+Accepted answers show up as locked in the escrow.
+
+30
+00:01:26,539 --> 00:01:29,129
+That hold gives us a minute to catch cheaters:
+
+31
+00:01:29,399 --> 00:01:32,496
+if someone fails a hidden check, the contract withholds
+
+32
+00:01:32,536 --> 00:01:35,022
+the payment and the money goes back to the budget.
+
+33
+00:01:36,751 --> 00:01:39,569
+When the hold ends, anyone can release the payment,
+
+34
+00:01:39,804 --> 00:01:42,045
+so the worker doesn't even depend on us.
+
+35
+00:01:42,782 --> 00:01:45,520
+The tUSD8 lands in the worker's wallet.
+
+36
+00:01:47,227 --> 00:01:49,095
+Every step links to the explorer.
+
+37
+00:01:49,845 --> 00:01:52,569
+This is the release, paid straight from the escrow to
+
+38
+00:01:52,609 --> 00:01:53,292
+the worker.
+
+39
+00:01:54,943 --> 00:01:57,533
+Back on my side, I download the dataset.
+
+40
+00:01:58,330 --> 00:02:00,319
+Its hash is written into the escrow,
+
+41
+00:02:00,494 --> 00:02:03,158
+so anyone can check that the file I got is the file the
+
+42
+00:02:03,198 --> 00:02:06,040
+workers made. Then I close the task,
+
+43
+00:02:06,275 --> 00:02:08,977
+and everything nobody earned comes back to my wallet.
+
+44
+00:02:10,676 --> 00:02:13,554
+The contract has no admin key and no upgrade path.
+
+45
+00:02:14,304 --> 00:02:16,714
+The operator can only pay the task's fixed rate,
+
+46
+00:02:16,936 --> 00:02:18,793
+to workers, inside the budget.
+
+47
+00:02:19,580 --> 00:02:21,762
+We cover that with 18 Foundry tests,
+
+48
+00:02:21,972 --> 00:02:24,889
+including a fuzz test, and we ran the whole money path
+
+49
+00:02:24,929 --> 00:02:26,065
+on the live testnet.
+
+50
+00:02:26,876 --> 00:02:29,770
+Lugha is live now, and the code is on GitHub.

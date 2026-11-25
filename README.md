@@ -9,6 +9,14 @@ Built for the **Aevum Builder Challenge #1** (QDay × DoraHacks). Every payment,
 - How it can be attacked and what it does about it: [THREAT_MODEL.md](THREAT_MODEL.md)
 - Who it helps: [docs/IMPACT.md](docs/IMPACT.md)
 
+## Demo video
+
+[![Lugha demo, 2:31](docs/demo/lugha-demo-thumbnail.jpg)](docs/demo/lugha-demo.mp4)
+
+[Watch the demo (MP4, 2:31, English subtitles)](docs/demo/lugha-demo.mp4) · [subtitles file](docs/demo/lugha-demo.en.srt)
+
+Filmed on the live site against the live testnet. A requester posts a Pidgin translation task and locks $0.16 with one signature, a worker answers on a phone and is paid $0.08 in tUSD8 after the hold, and the requester exports the dataset and closes the task to take back the other $0.08. The transactions are listed under [Live on Aevum testnet](#live-on-aevum-testnet). The signing prompt in the video is a test wallet driven by the recording script; the signatures and transactions are real.
+
 ## Deployments
 
 | What | Where |
